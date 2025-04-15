@@ -52,8 +52,8 @@ func readBuffered(filename string, bufSize int) time.Duration {
 	return time.Since(start)
 }
 func main() {
-	bufferSizes := []int{16, 256, 4096, 8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576} // 4KB to 1MB
-	fmt.Printf("Running Buffer Size Tests: NumLines=%v", numLines)
+	bufferSizes := []int{16, 256, 1024, 4096, 32768, 65536, 262144, 524288, 1048576, 5242880} // up to 5MB
+	fmt.Printf("Running Buffer Size Tests: NumLines=%v\n", numLines)
 	csvFile, err := os.Create("benchmark_results.csv")
 	if err != nil {
 		panic(err)
@@ -63,19 +63,14 @@ func main() {
 	writer := csv.NewWriter(csvFile)
 	defer writer.Flush()
 
-	writer.Write([]string{"BufferSize", "WriteTimeSeconds"}) // CSV header
+	writer.Write([]string{"BufferSize", "WriteTimeSeconds", "ReadTimeSeconds"}) // CSV header
 
 	fmt.Println(" ----- Write Test ----- ")
 
 	for _, size := range bufferSizes {
-		duration := writeBuffered("temp.txt", size)
-		fmt.Printf("Buffer size %d bytes: %v\n", size, duration)
-		writer.Write([]string{strconv.Itoa(size), fmt.Sprintf("%.6f", duration.Seconds())})
-	}
-	fmt.Println(" ----- Read Test ----- ")
-	for _, size := range bufferSizes {
-		duration := readBuffered("temp.txt", size)
-		fmt.Printf("Buffer size %d bytes: %v\n", size, duration)
-		writer.Write([]string{strconv.Itoa(size), fmt.Sprintf("%.6f", duration.Seconds())})
+		w_duration := writeBuffered("temp.txt", size)
+		r_duration := readBuffered("temp.txt", size)
+		fmt.Printf("Buffer size %d bytes: %v write, %v read\n", size, w_duration, r_duration)
+		writer.Write([]string{strconv.Itoa(size), fmt.Sprintf("%.6f", w_duration.Seconds()), fmt.Sprintf("%.6f", r_duration.Seconds())})
 	}
 }
