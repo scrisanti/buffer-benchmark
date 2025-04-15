@@ -10,8 +10,7 @@ Well it depends a lot on the specifics, but this is a quick example to test diff
 
 To generate a large file to test this on use the following command on Unix platforms:
 
-> ** Warning **
->
+> [!Warning]
 > This will create a one million line `.csv` file that takes up about 320MB of disk space
 
 ```
