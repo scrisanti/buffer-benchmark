@@ -14,6 +14,10 @@ You can change this in the `const` declaration at the top of `main.go`.
 
 If you want to experiment with other types of files see instructions below for generating more complex data.
 
+A `.csv` file will be generated with the results. Here is a simple plot of the results run on an M1 Macbook Air:
+
+![Benchmark Results](benchmark_results.png)
+
 ## Generating Other Data
 
 To generate a large file to test this on use the following command on Unix platforms:
