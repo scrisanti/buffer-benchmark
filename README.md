@@ -14,7 +14,7 @@ To generate a large file to test this on use the following command on Unix platf
 > This will create a one million line `.csv` file that takes up about 320MB of disk space
 
 ```
-seq 1 1000000 | awk '{print $1 "," $1*rand() "," $1*rand()}'
+seq 1 1000000 | awk '{print $1 "," $1*rand() "," $1*rand()}' >> big_file.csv
 ```
 
 
